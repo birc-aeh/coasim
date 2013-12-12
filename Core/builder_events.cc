@@ -64,7 +64,7 @@ Population&
 State::random_population()
 {
     using namespace Distribution_functions;
-    int individual = irand(total_population_size());
+    unsigned individual = (unsigned)irand(total_population_size());
     std::vector<Population>::iterator i;
     size_t total = 0;
     for (i = i_populations.begin(); i != i_populations.end(); ++i)

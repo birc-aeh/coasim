@@ -75,11 +75,13 @@ core::LeafNode::print_tree_at_point(std::ostream &os, double point,
     if (point < 0 or 1.0 <= point) 
 	throw std::out_of_range("Point out of range [0,1).");
     os << '\'' << i_id << '\'';
-    if (print_edge) 
-	if (edge_annotation != "")
-	    os << " : [" << edge_annotation << "}] " << edge_length;
-	else
-	    os << " : " << edge_length;
+    if (print_edge)
+    {
+        if (edge_annotation != "")
+            os << " : [" << edge_annotation << "}] " << edge_length;
+        else
+            os << " : " << edge_length;
+    }
 }
 
 void
@@ -131,25 +133,27 @@ core::CoalescentNode::print_tree_at_point(std::ostream &os, double point,
 	    i_right->print_tree_at_point(os, point, right_dist, "", true);
 	    os << ')';
  	    if (print_edge) 
-		if (edge_annotation != "")
-		    os << " : [" << edge_annotation << "}] " << edge_length;
-		else
-		    os << " : " << edge_length;
+        {
+            if (edge_annotation != "")
+                os << " : [" << edge_annotation << "}] " << edge_length;
+            else
+                os << " : " << edge_length;
+        }
 
 	}
     else
-	{
-	    if (i_left->intervals().contains_point(point))
-		i_left->print_tree_at_point(os, point, 
-					    edge_length+left_dist,
-					    "",
-					    print_edge);
-	    if (i_right->intervals().contains_point(point))
-		i_right->print_tree_at_point(os, point,
-					     edge_length+right_dist,
-					     "",
-					     print_edge);
-	}
+    {
+        if (i_left->intervals().contains_point(point))
+            i_left->print_tree_at_point(os, point, 
+                    edge_length+left_dist,
+                    "",
+                    print_edge);
+        if (i_right->intervals().contains_point(point))
+            i_right->print_tree_at_point(os, point,
+                    edge_length+right_dist,
+                    "",
+                    print_edge);
+    }
 }
 
 
