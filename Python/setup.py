@@ -36,7 +36,8 @@ CoaSim_Core = Extension('CoaSim.Core', ['markers.cc', 'arg.cc',
                                         'simulate.cc', 'main.cc'],
                         include_dirs=['..'],
                         library_dirs=['../Core'],
-                        libraries=['coasim', 'stdc++'])
+                        libraries=['coasim', 'stdc++'],
+                        extra_compile_args=["-shared"])
 
 setup(name="coasim-python",
       version="1.3",

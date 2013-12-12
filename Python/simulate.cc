@@ -40,6 +40,8 @@
 # include <Core/builder.hh>
 #endif
 
+#include <memory>
+
 static core::Event *
 parse_event(PyObject *py_tuple)
 {

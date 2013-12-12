@@ -3,8 +3,8 @@ CXXFLAGS =
 AM_CXXFLAGS =
 
 # for production
-CXXFLAGS    = -Wall -O3 -fexpensive-optimizations -DNDEBUG
-AM_CXXFLAGS = -Wall -O3 -fexpensive-optimizations -DNDEBUG
+CXXFLAGS    = -Wall -O3 -fexpensive-optimizations -DNDEBUG -shared -fPIC
+AM_CXXFLAGS = -Wall -O3 -fexpensive-optimizations -DNDEBUG -shared -fPIC
 
 
 lib_LIBRARIES = libcoasim.a
