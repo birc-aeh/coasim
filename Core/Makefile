@@ -23,7 +23,6 @@ HEADERS = $(wildcard *.hh)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 default: $(SHARED)
-	#$(CC) $(SHARED) -Wall $(LIBS) -o libcoasim.a
 	rm -f libcoasim.a
 	ar cru libcoasim.a $(SHARED)
 	ranlib libcoasim.a

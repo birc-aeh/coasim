@@ -37,9 +37,10 @@ int main(int argc, const char *argv[])
 	markers.push_back(new SNPMarker(0.2, 0.0,1.0));
 	markers.push_back(new SNPMarker(0.3, 0.0,1.0));
 	markers.push_back(new SNPMarker(0.4, 0.0,1.0));
+	markers.push_back(new SNPMarker(0.55, 0.0,1.0));
 	markers.push_back(new SNPMarker(0.67, 0.0,1.0));
 
-	unsigned int pop_sizes[] = { 0 };
+	unsigned int pop_sizes[] = { 2 };
 	Event *dummy_epoch_itr = 0;
 	Configuration conf(pop_sizes, pop_sizes+1,
 			   markers.begin(), markers.end(),
@@ -89,13 +90,18 @@ int main(int argc, const char *argv[])
 	    CHECK(l2->surface_at_point(conf.position(i)) == 0.0);
 
 
-	ARG::recomb_node_pair_t rp = arg.recombination(0.0,l1,0.0);
-	CHECK(rp.first == l1);
-	CHECK(rp.second == 0);
+	ARG::recomb_node_pair_t rp;
 
-	rp = arg.recombination(0.0,l1,1.0);
-	CHECK(rp.first == l1);
-	CHECK(rp.second == 0);
+	try {
+	    rp = arg.recombination(0.0, l1, 0.0);
+	    ERROR("cross-over point should be strictly greater than"
+                " the start of the covered interval");
+	} catch(ARG::null_event&) {}
+	try {
+	    rp = arg.recombination(0.0, l1, 1.0);
+	    ERROR("cross-over point should be strictly smaller than"
+                " the end of the covered interval");
+	} catch(ARG::null_event&) {}
 
 	rp = arg.recombination(1.0,l1,0.5);
 	CHECK(rp.first != 0);
