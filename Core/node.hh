@@ -70,8 +70,7 @@ namespace core {
 	// calculate the "surface" (i.e. the total edge-length) of the
 	// tree in point, with this node as root (zero if the point is not
 	// in this node's intervals).
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range) = 0;
+	virtual double surface_at_point(double point) const = 0;
 
 	virtual bool contains_point(double point) const
 	{
@@ -80,7 +79,6 @@ namespace core {
 
 	// Prints the local tree to a stream
 	void print_tree_at_point(std::ostream &os, double point) const
-	    throw(std::out_of_range) 
 	{
 	    print_tree_at_point(os, point, 0.0, "", false);
 	    os << ';';
@@ -89,12 +87,11 @@ namespace core {
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range) = 0;
+					 bool print_edge) const = 0;
 
 	// Calculate the number of leaves hit by the binary tree in point
 	// with root in this node.
-	unsigned int leaves_at_point(double point) const throw(std::out_of_range)
+	unsigned int leaves_at_point(double point) const
 	{ return intervals().leaf_contacts(point); }
 
 
@@ -104,7 +101,7 @@ namespace core {
 
   
 	unsigned int no_states()  const { return i_states.size(); }
-	int state(unsigned int s) const throw(std::out_of_range)
+	int state(unsigned int s) const
 	{ if (i_states.size() <= s) throw std::out_of_range("s out of range");
 	return i_states[s]; }
 
@@ -162,9 +159,8 @@ namespace core {
 
 
 	// -- Factory methods for building the ARG ------------------------------
-	LeafNode *leaf() throw();
-	CoalescentNode *coalescence(double time, Node *left, Node *right) 
-	    throw(null_child);
+	LeafNode *leaf();
+	CoalescentNode *coalescence(double time, Node *left, Node *right);
 
 	// these methods return a pair of new nodes, or throws a null_event
 	// exception if the event should be ignored.
@@ -172,18 +168,13 @@ namespace core {
 	typedef std::pair<RecombinationNode*,RecombinationNode*> 
 	recomb_node_pair_t;
 	recomb_node_pair_t recombination(double time, Node *child,
-					 double cross_over_point)
-	    throw(null_event, null_child,
-		  Interval::interval_out_of_range,Interval::empty_interval);
+					 double cross_over_point);
 	typedef std::pair<GeneConversionNode*,GeneConversionNode*> 
 	gene_conv_node_pair_t;
 	gene_conv_node_pair_t gene_conversion(double time, Node *child,
 					      double conversion_start,
-					      double conversion_end)
-	    throw(null_event, null_child,
-		  Interval::interval_out_of_range,Interval::empty_interval);
-	Node *migration(double time, Node *child, int src_pop, int dst_pop)
-	    throw(null_event);
+					      double conversion_end);
+	Node *migration(double time, Node *child, int src_pop, int dst_pop);
 
 
 
@@ -227,13 +218,11 @@ namespace core {
 	    : Node(conf,0.0), i_id(id)
 	{}
 
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range);
+	virtual double surface_at_point(double point) const;
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range);
+					 bool print_edge) const;
 	virtual void mutate_marker(unsigned int idx, Mutator &m);
 
 	unsigned int i_id;
@@ -266,8 +255,7 @@ namespace core {
 	      i_retired_intervals(ris), i_conf(conf)
 	{}
 
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range);
+	virtual double surface_at_point(double point) const;
 
 	virtual bool contains_point(double point) const
 	{
@@ -278,8 +266,7 @@ namespace core {
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range);
+					 bool print_edge) const;
 	virtual void mutate_marker(unsigned int idx, Mutator &m);
 
 	Node *const i_left;
@@ -304,13 +291,11 @@ namespace core {
 	      i_cross_over_point(cross_over_point), i_is_left(is_left)
 	{}
 
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range);
+	virtual double surface_at_point(double point) const;
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range);
+					 bool print_edge) const;
 	virtual void mutate_marker(unsigned int idx, Mutator &m);
 
 	Node *const i_child;
@@ -337,13 +322,11 @@ namespace core {
 	      i_is_inside(is_inside)
 	{}
 
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range);
+	virtual double surface_at_point(double point) const;
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range);
+					 bool print_edge) const;
 	virtual void mutate_marker(unsigned int idx, Mutator &m);
 
 	Node *const i_child;
@@ -367,13 +350,11 @@ namespace core {
 	      i_src_pop(src_pop), i_dst_pop(dst_pop)
 	{}
 
-	virtual double surface_at_point(double point) const
-	    throw(std::out_of_range);
+	virtual double surface_at_point(double point) const;
 	virtual void print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
-					 bool print_edge) const
-	    throw(std::out_of_range);
+					 bool print_edge) const;
 	virtual void mutate_marker(unsigned int idx, Mutator &m);
 
 	Node *const i_child;

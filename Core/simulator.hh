@@ -13,7 +13,7 @@ namespace core {
 
     class ARG;
     class Configuration;
-    class BuilderMonitor;
+    struct BuilderMonitor;
 
     namespace Simulator {
 	// Returns the resulting ARG, or 0 if the simulation was aborted

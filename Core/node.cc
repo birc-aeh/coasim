@@ -58,7 +58,6 @@ core::Node::initialize_marker(unsigned int idx, const Marker &m)
 
 double
 core::LeafNode::surface_at_point(double point) const
-    throw(std::out_of_range)
 {
     if (point < 0 or 1.0 <= point) 
 	throw std::out_of_range("Point out of range [0,1).");
@@ -70,7 +69,6 @@ core::LeafNode::print_tree_at_point(std::ostream &os, double point,
 				    double edge_length,
 				    std::string edge_annotation,
 				    bool print_edge) const
-    throw(std::out_of_range)
 {
     if (point < 0 or 1.0 <= point) 
 	throw std::out_of_range("Point out of range [0,1).");
@@ -93,7 +91,6 @@ core::LeafNode::mutate_marker(unsigned int idx, Mutator &m)
 
 double
 core::CoalescentNode::surface_at_point(double point) const
-    throw(std::out_of_range)
 {
     // NB! don't check if this node contains it -- it could be
     // retired, if that is the case it's children will contain it.
@@ -119,7 +116,6 @@ core::CoalescentNode::print_tree_at_point(std::ostream &os, double point,
 					  double edge_length,
 					  std::string edge_annotation,
 					  bool print_edge) const
-    throw(std::out_of_range)
 {
     double left_dist  = time() - i_left->time();
     double right_dist = time() - i_right->time();
@@ -182,7 +178,6 @@ core::CoalescentNode::mutate_marker(unsigned int idx, Mutator &m)
 
 double
 core::RecombinationNode::surface_at_point(double point) const
-    throw(std::out_of_range)
 {
     double surface = 0.0;
     if (i_child->intervals().contains_point(point))
@@ -198,7 +193,6 @@ core::RecombinationNode::print_tree_at_point(std::ostream &os, double point,
 					     double edge_length,
 					     std::string edge_annotation,
 					     bool print_edge) const
-    throw(std::out_of_range)
 {
     double d = time() - i_child->time();
     i_child->print_tree_at_point(os, point, edge_length+d,
@@ -220,7 +214,6 @@ core::RecombinationNode::mutate_marker(unsigned int idx, Mutator &m)
 
 double
 core::GeneConversionNode::surface_at_point(double point) const
-    throw(std::out_of_range)
 {
     double surface = 0.0;
     if (i_child->intervals().contains_point(point))
@@ -236,7 +229,6 @@ core::GeneConversionNode::print_tree_at_point(std::ostream &os, double point,
 					      double edge_length,
 					      std::string edge_annotation,
 					      bool print_edge) const
-    throw(std::out_of_range)
 {
     double d = time() - i_child->time();
     i_child->print_tree_at_point(os, point, edge_length+d,
@@ -259,7 +251,6 @@ core::GeneConversionNode::mutate_marker(unsigned int idx, Mutator &m)
 
 double
 core::MigrationNode::surface_at_point(double point) const
-    throw(std::out_of_range)
 {
     double surface = 0.0;
     if (i_child->intervals().contains_point(point))
@@ -275,7 +266,6 @@ core::MigrationNode::print_tree_at_point(std::ostream &os, double point,
 					 double edge_length,
 					 std::string edge_annotation,
 					 bool print_edge) const
-    throw(std::out_of_range)
 {
     double d = time() - i_child->time();
     std::ostringstream annotation;
@@ -314,7 +304,7 @@ ARG::~ARG()
 	delete *itr;
 }
 
-LeafNode *ARG::leaf() throw()
+LeafNode *ARG::leaf()
 {
     LeafNode *n = new LeafNode(i_conf, i_no_leaves);
     n->i_intervals.add(0.0,1.0,1);
@@ -346,7 +336,6 @@ static Intervals filter_contains_marker(const Intervals &intervals,
 }
 
 CoalescentNode *ARG::coalescence(double time, Node *left, Node *right)
-    throw(null_child)
 {
     if (left == 0 or right == 0) throw null_child();
 
@@ -386,8 +375,6 @@ CoalescentNode *ARG::coalescence(double time, Node *left, Node *right)
 
 ARG::recomb_node_pair_t ARG::recombination(double time, Node *child,
 					   double cross_over_point)
-    throw(null_event, null_child,
-	  Interval::interval_out_of_range,Interval::empty_interval)
 {
     if (child == 0) throw null_child();
 
@@ -419,8 +406,6 @@ ARG::recomb_node_pair_t ARG::recombination(double time, Node *child,
 ARG::gene_conv_node_pair_t ARG::gene_conversion(double time, Node *child,
 						double conversion_start,
 						double conversion_end)
-    throw(null_event, null_child,
-	  Interval::interval_out_of_range,Interval::empty_interval)
 {
     if (child == 0) throw null_child();
 
@@ -464,7 +449,6 @@ ARG::gene_conv_node_pair_t ARG::gene_conversion(double time, Node *child,
 
 Node *
 ARG::migration(double time, Node *child, int src_pop, int dst_pop)
-    throw(null_event)
 {
     if (i_keep_migration_events)
 	{

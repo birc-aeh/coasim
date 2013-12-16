@@ -31,7 +31,7 @@ namespace core {
     
     class ARG;
     class Node;
-    class BuilderMonitor;
+    struct BuilderMonitor;
     class Scheduler;
     class CoalescenceEvent;
     class State;
